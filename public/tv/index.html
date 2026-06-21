@@ -50,7 +50,7 @@
       will-change: transform;
       display: flex;
       flex-direction: column;
-      gap: 3vh; /* ← altere aqui o espaçamento entre os itens */
+      gap: 2vh; /* ← altere aqui o espaçamento entre os itens */
     }
 
     .lista-wrapper.scrolling {
@@ -127,10 +127,11 @@
       left: 33%;
       top: 22%;
       width: 63%;
-      height: 65%;
+      height: 66%;
       max-height: 70%;
       overflow: hidden;
       border-radius: 2vw;
+      transform: translateZ(0);
     }
 
     .destaque-foto {
@@ -141,7 +142,6 @@
       height: 100%;
       object-fit: cover;
       object-position: center;
-      border-radius: inherit;
       transition: opacity 0.5s ease;
     }
 
