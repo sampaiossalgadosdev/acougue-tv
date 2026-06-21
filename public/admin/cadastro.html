@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Produto — AçougueTV Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      min-height: 100vh;
+      background: #0f0f0f;
+      font-family: 'Inter', sans-serif;
+      color: #f0f0f0;
+    }
+
+    .header {
+      background: #1a1a1a;
+      border-bottom: 1px solid #2a2a2a;
+      padding: 0 32px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-left { display: flex; align-items: center; gap: 16px; }
+
+    .btn-voltar {
+      padding: 8px 14px;
+      background: transparent;
+      border: 1px solid #333;
+      border-radius: 8px;
+      color: #aaa;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .btn-voltar:hover { border-color: #555; color: #fff; }
+
+    .header-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: #f0c040;
+    }
+
+    .main {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 40px 32px;
+    }
+
+    .page-title { font-size: 24px; font-weight: 700; margin-bottom: 6px; }
+    .page-sub { font-size: 14px; color: #666; margin-bottom: 36px; }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .campo { margin-bottom: 0; }
+    .campo.full { grid-column: 1 / -1; }
+
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 500;
+      color: #bbb;
+      margin-bottom: 8px;
+    }
+
+    label .obrig { color: #f0c040; margin-left: 2px; }
+
+    input[type="text"],
+    input[type="number"],
+    input[type="email"],
+    select {
+      width: 100%;
+      background: #1e1e1e;
+      border: 1px solid #333;
+      border-radius: 10px;
+      padding: 13px 16px;
+      color: #f0f0f0;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.2s;
+      -webkit-appearance: none;
+    }
+
+    input:focus, select:focus { border-color: #f0c040; }
+    input::placeholder { color: #555; }
+    input.campo-erro { border-color: #e74c3c !important; }
+
+    .msg-campo-erro {
+      font-size: 12px;
+      color: #ff6b6b;
+      margin-top: 5px;
+      display: none;
+    }
+
+    .msg-campo-erro.visivel { display: block; }
+
+    /* Upload de imagem */
+    .upload-area {
+      border: 2px dashed #333;
+      border-radius: 12px;
+      padding: 24px;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+      position: relative;
+    }
+
+    .upload-area:hover { border-color: #f0c040; background: rgba(240,192,64,0.03); }
+    .upload-area.drag { border-color: #f0c040; background: rgba(240,192,64,0.06); }
+    .upload-area.com-preview { border-color: #3a3a3a; padding: 0; overflow: hidden; }
+
+    #input-imagem { display: none; }
+
+    .upload-placeholder { pointer-events: none; }
+    .upload-icon { font-size: 36px; margin-bottom: 10px; }
+    .upload-texto { font-size: 14px; color: #888; }
+    .upload-sub { font-size: 12px; color: #555; margin-top: 4px; }
+
+    .preview-img {
+      width: 100%;
+      max-height: 220px;
+      object-fit: cover;
+      border-radius: 10px;
+      display: none;
+    }
+
+    .preview-img.visivel { display: block; }
+
+    .preview-troca {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      background: rgba(0,0,0,0.75);
+      color: #f0c040;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 5px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      display: none;
+    }
+
+    .preview-img.visivel + .preview-troca { display: block; }
+
+    /* Toggle destaque */
+    .toggle-section {
+      background: #1c1c1c;
+      border: 1px solid #2a2a2a;
+      border-radius: 12px;
+      padding: 20px;
+      grid-column: 1 / -1;
+    }
+
+    .toggle-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+    }
+
+    .toggle-info h3 { font-size: 15px; font-weight: 600; color: #fff; }
+    .toggle-info p { font-size: 12px; color: #666; margin-top: 2px; }
+
+    .toggle-switch {
+      position: relative;
+      width: 48px;
+      height: 26px;
+      flex-shrink: 0;
+    }
+
+    .toggle-switch input { opacity: 0; width: 0; height: 0; }
+
+    .toggle-thumb {
+      position: absolute;
+      inset: 0;
+      background: #333;
+      border-radius: 26px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .toggle-thumb::before {
+      content: '';
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      left: 3px;
+      top: 3px;
+      background: #fff;
+      border-radius: 50%;
+      transition: transform 0.2s;
+    }
+
+    .toggle-switch input:checked + .toggle-thumb { background: #f0c040; }
+    .toggle-switch input:checked + .toggle-thumb::before { transform: translateX(22px); background: #111; }
+
+    .campos-destaque {
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid #2a2a2a;
+      display: none;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .campos-destaque.visivel { display: grid; }
+
+    .dica-desconto {
+      grid-column: 1 / -1;
+      font-size: 12px;
+      color: #666;
+      background: #141414;
+      border-radius: 8px;
+      padding: 10px 12px;
+    }
+
+    /* Botões de ação */
+    .form-actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 32px;
+      grid-column: 1 / -1;
+    }
+
+    .btn-salvar {
+      flex: 1;
+      padding: 14px;
+      background: #f0c040;
+      color: #111;
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+    }
+
+    .btn-salvar:hover { background: #f5d060; }
+    .btn-salvar:active { transform: scale(0.98); }
+    .btn-salvar:disabled { background: #555; color: #888; cursor: not-allowed; }
+
+    .btn-cancelar {
+      padding: 14px 28px;
+      background: transparent;
+      border: 1px solid #333;
+      border-radius: 10px;
+      color: #aaa;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      cursor: pointer;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      transition: border-color 0.2s;
+    }
+
+    .btn-cancelar:hover { border-color: #555; color: #fff; }
+
+    /* Alerta global */
+    .alerta {
+      margin-top: 16px;
+      padding: 14px 16px;
+      border-radius: 10px;
+      font-size: 14px;
+      display: none;
+      grid-column: 1 / -1;
+    }
+
+    .alerta.erro {
+      background: rgba(220, 53, 69, 0.15);
+      border: 1px solid rgba(220, 53, 69, 0.4);
+      color: #ff6b6b;
+    }
+
+    .alerta.sucesso {
+      background: rgba(39, 174, 96, 0.15);
+      border: 1px solid rgba(39, 174, 96, 0.4);
+      color: #5dde94;
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="header-left">
+      <a href="/admin/dashboard.html" class="btn-voltar">← Voltar</a>
+      <span class="header-title" id="header-title">Novo Produto</span>
+    </div>
+  </header>
+
+  <main class="main">
+    <h1 class="page-title" id="page-title">Novo Produto</h1>
+    <p class="page-sub" id="page-sub">Preencha as informações do produto para exibir no açougue.</p>
+
+    <div class="form-grid">
+
+      <!-- Nome -->
+      <div class="campo full">
+        <label for="nome">Nome do Produto <span class="obrig">*</span></label>
+        <input type="text" id="nome" placeholder="Ex: Contra Filé Sem Osso" />
+        <div class="msg-campo-erro" id="erro-nome"></div>
+      </div>
+
+      <!-- Tipo -->
+      <div class="campo">
+        <label for="tipo">Tipo / Categoria</label>
+        <input type="text" id="tipo" placeholder="Ex: Bovina, Suína, Frango" />
+      </div>
+
+      <!-- Preço -->
+      <div class="campo">
+        <label for="preco">Preço por KG (R$) <span class="obrig">*</span></label>
+        <input type="number" id="preco" placeholder="0,00" min="0" step="0.01" />
+        <div class="msg-campo-erro" id="erro-preco"></div>
+      </div>
+
+      <!-- Upload imagem -->
+      <div class="campo full">
+        <label>Foto do Produto <span class="obrig" id="obrig-foto">*</span></label>
+        <div class="upload-area" id="upload-area" onclick="document.getElementById('input-imagem').click()">
+          <input type="file" id="input-imagem" accept="image/jpeg,image/png,image/webp" />
+          <div class="upload-placeholder" id="upload-placeholder">
+            <div class="upload-icon">📷</div>
+            <div class="upload-texto">Clique para selecionar a foto</div>
+            <div class="upload-sub">JPEG, PNG ou WebP — máximo 5MB</div>
+          </div>
+          <img class="preview-img" id="preview-img" alt="Preview" />
+          <span class="preview-troca" onclick="event.stopPropagation(); document.getElementById('input-imagem').click()">🔄 Trocar foto</span>
+        </div>
+        <div class="msg-campo-erro" id="erro-imagem"></div>
+      </div>
+
+      <!-- Seção destaque -->
+      <div class="toggle-section">
+        <div class="toggle-header" onclick="toggleDestaque()">
+          <div class="toggle-info">
+            <h3>⭐ Produto em Destaque</h3>
+            <p>Exibe a foto deste produto em tamanho grande na TV com o preço em destaque</p>
+          </div>
+          <label class="toggle-switch" onclick="event.stopPropagation()">
+            <input type="checkbox" id="destaque-toggle" onchange="onDestaqueChange()" />
+            <span class="toggle-thumb"></span>
+          </label>
+        </div>
+
+        <div class="campos-destaque" id="campos-destaque">
+          <div class="dica-desconto">
+            💡 Informe o preço já com o desconto aplicado. O percentual será calculado automaticamente.
+          </div>
+
+          <div class="campo">
+            <label for="preco-desconto">Preço com Desconto (R$/kg) <span class="obrig">*</span></label>
+            <input type="number" id="preco-desconto" placeholder="0,00" min="0" step="0.01" oninput="calcularDesconto()" />
+            <div class="msg-campo-erro" id="erro-preco-desconto"></div>
+          </div>
+
+          <div class="campo">
+            <label for="percentual">Percentual de Desconto (%) <span class="obrig">*</span></label>
+            <input type="number" id="percentual" placeholder="Ex: 20" min="1" max="99" step="1" oninput="calcularPrecoPorPercentual()" />
+            <div class="msg-campo-erro" id="erro-percentual"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Ações -->
+      <div class="form-actions">
+        <a href="/admin/dashboard.html" class="btn-cancelar">Cancelar</a>
+        <button class="btn-salvar" id="btn-salvar" onclick="salvar()">Salvar Produto</button>
+      </div>
+
+      <div class="alerta" id="alerta"></div>
+
+    </div>
+  </main>
+
+  <script>
+    const ADMIN_TOKEN_KEY = 'admin_token';
+    const params = new URLSearchParams(window.location.search);
+    const editandoId = params.get('id');
+    let arquivoSelecionado = null;
+    let calculandoDesconto = false;
+
+    function getToken() {
+      const t = localStorage.getItem(ADMIN_TOKEN_KEY);
+      if (!t) { window.location.href = '/admin/login.html'; return null; }
+      return t;
+    }
+
+    // Drag & drop na área de upload
+    const uploadArea = document.getElementById('upload-area');
+    uploadArea.addEventListener('dragover', e => { e.preventDefault(); uploadArea.classList.add('drag'); });
+    uploadArea.addEventListener('dragleave', () => uploadArea.classList.remove('drag'));
+    uploadArea.addEventListener('drop', e => {
+      e.preventDefault();
+      uploadArea.classList.remove('drag');
+      const f = e.dataTransfer.files[0];
+      if (f) processarArquivo(f);
+    });
+
+    document.getElementById('input-imagem').addEventListener('change', function () {
+      if (this.files[0]) processarArquivo(this.files[0]);
+    });
+
+    function processarArquivo(file) {
+      if (!['image/jpeg','image/png','image/webp'].includes(file.type)) {
+        mostrarErroCampo('imagem', 'Apenas JPEG, PNG ou WebP.');
+        return;
+      }
+      if (file.size > 5 * 1024 * 1024) {
+        mostrarErroCampo('imagem', 'Imagem muito grande (máx. 5MB).');
+        return;
+      }
+      arquivoSelecionado = file;
+      limparErroCampo('imagem');
+      const reader = new FileReader();
+      reader.onload = e => {
+        const img = document.getElementById('preview-img');
+        img.src = e.target.result;
+        img.classList.add('visivel');
+        document.getElementById('upload-placeholder').style.display = 'none';
+        uploadArea.classList.add('com-preview');
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function toggleDestaque() {
+      const toggle = document.getElementById('destaque-toggle');
+      toggle.checked = !toggle.checked;
+      onDestaqueChange();
+    }
+
+    function onDestaqueChange() {
+      const ativo = document.getElementById('destaque-toggle').checked;
+      const campos = document.getElementById('campos-destaque');
+      if (ativo) campos.classList.add('visivel');
+      else campos.classList.remove('visivel');
+    }
+
+    function calcularDesconto() {
+      if (calculandoDesconto) return;
+      const preco = parseFloat(document.getElementById('preco').value);
+      const desconto = parseFloat(document.getElementById('preco-desconto').value);
+      if (!isNaN(preco) && !isNaN(desconto) && preco > 0 && desconto < preco) {
+        calculandoDesconto = true;
+        const pct = Math.round(((preco - desconto) / preco) * 100);
+        document.getElementById('percentual').value = pct;
+        calculandoDesconto = false;
+      }
+    }
+
+    function calcularPrecoPorPercentual() {
+      if (calculandoDesconto) return;
+      const preco = parseFloat(document.getElementById('preco').value);
+      const pct = parseFloat(document.getElementById('percentual').value);
+      if (!isNaN(preco) && !isNaN(pct) && preco > 0 && pct > 0 && pct < 100) {
+        calculandoDesconto = true;
+        const precoDesc = (preco * (1 - pct / 100)).toFixed(2);
+        document.getElementById('preco-desconto').value = precoDesc;
+        calculandoDesconto = false;
+      }
+    }
+
+    function mostrarErroCampo(campo, msg) {
+      const el = document.getElementById(`erro-${campo}`);
+      if (el) { el.textContent = msg; el.classList.add('visivel'); }
+      const inp = document.getElementById(campo === 'preco-desconto' ? 'preco-desconto'
+        : campo === 'percentual' ? 'percentual' : campo);
+      if (inp) inp.classList.add('campo-erro');
+    }
+
+    function limparErroCampo(campo) {
+      const el = document.getElementById(`erro-${campo}`);
+      if (el) el.classList.remove('visivel');
+      const inp = document.getElementById(campo);
+      if (inp) inp.classList.remove('campo-erro');
+    }
+
+    function limparErros() {
+      ['nome','preco','imagem','preco-desconto','percentual'].forEach(limparErroCampo);
+    }
+
+    function mostrarAlerta(tipo, msg) {
+      const el = document.getElementById('alerta');
+      el.className = `alerta ${tipo}`;
+      el.textContent = msg;
+      el.style.display = 'block';
+      el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    async function salvar() {
+      limparErros();
+      document.getElementById('alerta').style.display = 'none';
+
+      const nome = document.getElementById('nome').value.trim();
+      const tipo = document.getElementById('tipo').value.trim();
+      const preco = document.getElementById('preco').value;
+      const destaque = document.getElementById('destaque-toggle').checked;
+      const precoDesc = document.getElementById('preco-desconto').value;
+      const pct = document.getElementById('percentual').value;
+
+      let valido = true;
+
+      if (!nome) { mostrarErroCampo('nome', 'Nome obrigatório.'); valido = false; }
+      if (!preco || parseFloat(preco) <= 0) { mostrarErroCampo('preco', 'Informe um preço válido.'); valido = false; }
+      if (!editandoId && !arquivoSelecionado) { mostrarErroCampo('imagem', 'A foto do produto é obrigatória.'); valido = false; }
+
+      if (destaque) {
+        if (!precoDesc || parseFloat(precoDesc) <= 0) { mostrarErroCampo('preco-desconto', 'Informe o preço com desconto.'); valido = false; }
+        if (parseFloat(precoDesc) >= parseFloat(preco)) { mostrarErroCampo('preco-desconto', 'O preço com desconto deve ser menor que o original.'); valido = false; }
+        if (!pct || parseInt(pct) <= 0 || parseInt(pct) >= 100) { mostrarErroCampo('percentual', 'Informe um percentual entre 1 e 99.'); valido = false; }
+      }
+
+      if (!valido) return;
+
+      const token = getToken();
+      if (!token) return;
+
+      const btn = document.getElementById('btn-salvar');
+      btn.disabled = true;
+      btn.textContent = editandoId ? 'Salvando...' : 'Cadastrando...';
+
+      try {
+        const formData = new FormData();
+        formData.append('nome', nome);
+        formData.append('tipo', tipo);
+        formData.append('preco_kg', preco);
+        formData.append('destaque', destaque ? 'true' : 'false');
+        if (destaque) {
+          formData.append('preco_desconto', precoDesc);
+          formData.append('percentual_desconto', pct);
+        }
+        if (arquivoSelecionado) formData.append('imagem', arquivoSelecionado);
+
+        const url = editandoId ? `/api/carnes/${editandoId}` : '/api/carnes';
+        const method = editandoId ? 'PUT' : 'POST';
+
+        const res = await fetch(url, {
+          method,
+          headers: { 'Authorization': `Bearer ${token}` },
+          body: formData
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          mostrarAlerta('erro', data.error || 'Erro ao salvar produto.');
+          return;
+        }
+
+        mostrarAlerta('sucesso', editandoId ? '✅ Produto atualizado!' : '✅ Produto cadastrado com sucesso!');
+        setTimeout(() => { window.location.href = '/admin/dashboard.html'; }, 1500);
+      } catch {
+        mostrarAlerta('erro', 'Erro de conexão. Tente novamente.');
+      } finally {
+        btn.disabled = false;
+        btn.textContent = editandoId ? 'Salvar Alterações' : 'Salvar Produto';
+      }
+    }
+
+    // Carregar dados se for edição
+    async function carregarParaEdicao() {
+      const token = getToken();
+      if (!token) return;
+
+      document.getElementById('header-title').textContent = 'Editar Produto';
+      document.getElementById('page-title').textContent = 'Editar Produto';
+      document.getElementById('page-sub').textContent = 'Altere as informações do produto. A foto só muda se você selecionar uma nova.';
+      document.getElementById('btn-salvar').textContent = 'Salvar Alterações';
+      document.getElementById('obrig-foto').style.display = 'none';
+
+      try {
+        const res = await fetch(`/api/carnes/${editandoId}`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+
+        if (!res.ok) { window.location.href = '/admin/dashboard.html'; return; }
+
+        const c = await res.json();
+
+        document.getElementById('nome').value = c.nome;
+        document.getElementById('tipo').value = c.tipo || '';
+        document.getElementById('preco').value = parseFloat(c.preco_kg).toFixed(2);
+
+        if (c.imagem_url) {
+          const img = document.getElementById('preview-img');
+          img.src = c.imagem_url;
+          img.classList.add('visivel');
+          document.getElementById('upload-placeholder').style.display = 'none';
+          uploadArea.classList.add('com-preview');
+        }
+
+        if (c.destaque) {
+          document.getElementById('destaque-toggle').checked = true;
+          document.getElementById('campos-destaque').classList.add('visivel');
+          document.getElementById('preco-desconto').value = parseFloat(c.preco_desconto).toFixed(2);
+          document.getElementById('percentual').value = c.percentual_desconto;
+        }
+      } catch {
+        window.location.href = '/admin/dashboard.html';
+      }
+    }
+
+    // Init
+    getToken();
+    if (editandoId) carregarParaEdicao();
+
+    // Atualizar desconto quando preço original muda
+    document.getElementById('preco').addEventListener('input', calcularDesconto);
+  </script>
+</body>
+</html>

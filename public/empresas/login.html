@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login TV — AçougueTV</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      min-height: 100vh;
+      background: #0a0a0a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Inter', sans-serif;
+      color: #f0f0f0;
+    }
+
+    .card {
+      background: #1a1a1a;
+      border: 1px solid #2a2a2a;
+      border-radius: 16px;
+      padding: 48px 40px;
+      width: 100%;
+      max-width: 440px;
+    }
+
+    .logo-area {
+      text-align: center;
+      margin-bottom: 36px;
+    }
+
+    .logo-icon {
+      font-size: 48px;
+      display: block;
+      margin-bottom: 12px;
+    }
+
+    .logo-title {
+      font-size: 22px;
+      font-weight: 700;
+      color: #f0c040;
+      letter-spacing: -0.5px;
+    }
+
+    .logo-sub {
+      font-size: 13px;
+      color: #666;
+      margin-top: 4px;
+    }
+
+    h1 {
+      font-size: 18px;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 6px;
+    }
+
+    .desc {
+      font-size: 13px;
+      color: #888;
+      margin-bottom: 28px;
+    }
+
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 500;
+      color: #bbb;
+      margin-bottom: 8px;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      background: #252525;
+      border: 1px solid #333;
+      border-radius: 10px;
+      padding: 14px 16px;
+      color: #f0f0f0;
+      font-family: 'Inter', monospace;
+      font-size: 14px;
+      letter-spacing: 1px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    input[type="text"]:focus { border-color: #f0c040; }
+
+    input[type="text"]::placeholder { color: #555; letter-spacing: 0; }
+
+    .btn-entrar {
+      width: 100%;
+      margin-top: 20px;
+      padding: 14px;
+      background: #f0c040;
+      color: #111;
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+    }
+
+    .btn-entrar:hover { background: #f5d060; }
+    .btn-entrar:active { transform: scale(0.98); }
+    .btn-entrar:disabled { background: #555; color: #888; cursor: not-allowed; }
+
+    .erro {
+      margin-top: 14px;
+      padding: 12px 14px;
+      background: rgba(220, 53, 69, 0.15);
+      border: 1px solid rgba(220, 53, 69, 0.4);
+      border-radius: 8px;
+      color: #ff6b6b;
+      font-size: 13px;
+      display: none;
+    }
+
+    .link-admin {
+      display: block;
+      text-align: center;
+      margin-top: 24px;
+      font-size: 13px;
+      color: #555;
+    }
+
+    .link-admin a { color: #f0c040; text-decoration: none; }
+    .link-admin a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="logo-area">
+      <span class="logo-icon">📺</span>
+      <div class="logo-title">AçougueTV</div>
+      <div class="logo-sub">Tela do Açougue</div>
+    </div>
+
+    <h1>Ativar Tela da TV</h1>
+    <p class="desc">Insira o Token da TV gerado no painel administrativo.</p>
+
+    <label for="tv-token">Token da TV</label>
+    <input
+      type="text"
+      id="tv-token"
+      placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+      autocomplete="off"
+      spellcheck="false"
+    />
+
+    <button class="btn-entrar" id="btn-entrar" onclick="entrar()">Ativar Tela</button>
+
+    <div class="erro" id="erro-msg"></div>
+
+    <p class="link-admin">
+      É o administrador? <a href="/admin/login.html">Acesse o painel</a>
+    </p>
+  </div>
+
+  <script>
+    const TV_TOKEN_KEY = 'tv_token';
+
+    // Se já tiver token salvo, vai direto para a TV
+    if (localStorage.getItem(TV_TOKEN_KEY)) {
+      window.location.href = '/tv/index.html';
+    }
+
+    document.getElementById('tv-token').addEventListener('keydown', e => {
+      if (e.key === 'Enter') entrar();
+    });
+
+    async function entrar() {
+      const token = document.getElementById('tv-token').value.trim();
+      const btn = document.getElementById('btn-entrar');
+      const erroEl = document.getElementById('erro-msg');
+
+      if (!token) {
+        mostrarErro('Informe o Token da TV.');
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = 'Verificando...';
+      erroEl.style.display = 'none';
+
+      try {
+        const res = await fetch('/api/auth/tv/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ tv_token: token })
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          mostrarErro(data.error || 'Token inválido.');
+          return;
+        }
+
+        localStorage.setItem(TV_TOKEN_KEY, token);
+        window.location.href = '/tv/index.html';
+      } catch {
+        mostrarErro('Erro de conexão. Tente novamente.');
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Ativar Tela';
+      }
+    }
+
+    function mostrarErro(msg) {
+      const el = document.getElementById('erro-msg');
+      el.textContent = msg;
+      el.style.display = 'block';
+    }
+  </script>
+</body>
+</html>

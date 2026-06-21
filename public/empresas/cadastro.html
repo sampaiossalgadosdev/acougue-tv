@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cadastro de Empresa — AçougueTV</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      min-height: 100vh;
+      background: #0a0a0a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      font-family: 'Inter', sans-serif;
+      color: #f0f0f0;
+    }
+
+    .card {
+      background: #1a1a1a;
+      border: 1px solid #2a2a2a;
+      border-radius: 16px;
+      padding: 48px 40px;
+      width: 100%;
+      max-width: 480px;
+    }
+
+    .logo-area {
+      text-align: center;
+      margin-bottom: 36px;
+    }
+
+    .logo-icon { font-size: 44px; display: block; margin-bottom: 10px; }
+
+    .logo-title {
+      font-size: 22px;
+      font-weight: 700;
+      color: #f0c040;
+    }
+
+    h1 {
+      font-size: 20px;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 6px;
+    }
+
+    .desc { font-size: 13px; color: #777; margin-bottom: 28px; }
+
+    .campo { margin-bottom: 18px; }
+
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 500;
+      color: #bbb;
+      margin-bottom: 8px;
+    }
+
+    input {
+      width: 100%;
+      background: #252525;
+      border: 1px solid #333;
+      border-radius: 10px;
+      padding: 13px 16px;
+      color: #f0f0f0;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    input:focus { border-color: #f0c040; }
+    input::placeholder { color: #555; }
+    input.erro { border-color: #e74c3c; }
+
+    .msg-erro-campo {
+      font-size: 12px;
+      color: #ff6b6b;
+      margin-top: 5px;
+      display: none;
+    }
+
+    .msg-erro-campo.visivel { display: block; }
+
+    .btn-cadastrar {
+      width: 100%;
+      margin-top: 8px;
+      padding: 14px;
+      background: #f0c040;
+      color: #111;
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+    }
+
+    .btn-cadastrar:hover { background: #f5d060; }
+    .btn-cadastrar:active { transform: scale(0.98); }
+    .btn-cadastrar:disabled { background: #555; color: #888; cursor: not-allowed; }
+
+    .alerta {
+      margin-top: 14px;
+      padding: 12px 14px;
+      border-radius: 8px;
+      font-size: 13px;
+      display: none;
+    }
+
+    .alerta.sucesso {
+      background: rgba(39, 174, 96, 0.15);
+      border: 1px solid rgba(39, 174, 96, 0.4);
+      color: #5dde94;
+    }
+
+    .alerta.erro {
+      background: rgba(220, 53, 69, 0.15);
+      border: 1px solid rgba(220, 53, 69, 0.4);
+      color: #ff6b6b;
+    }
+
+    .link-login {
+      display: block;
+      text-align: center;
+      margin-top: 24px;
+      font-size: 13px;
+      color: #555;
+    }
+
+    .link-login a { color: #f0c040; text-decoration: none; }
+    .link-login a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="logo-area">
+      <span class="logo-icon">🥩</span>
+      <div class="logo-title">AçougueTV</div>
+    </div>
+
+    <h1>Cadastrar Supermercado</h1>
+    <p class="desc">Crie a conta da sua empresa para começar a gerenciar os produtos.</p>
+
+    <div class="campo">
+      <label for="nome">Nome do Supermercado</label>
+      <input type="text" id="nome" placeholder="Ex: Amaro Supermercados" />
+      <div class="msg-erro-campo" id="erro-nome"></div>
+    </div>
+
+    <div class="campo">
+      <label for="cnpj">CNPJ</label>
+      <input type="text" id="cnpj" placeholder="00.000.000/0000-00" maxlength="18" />
+      <div class="msg-erro-campo" id="erro-cnpj"></div>
+    </div>
+
+    <div class="campo">
+      <label for="email">E-mail de Acesso</label>
+      <input type="email" id="email" placeholder="contato@supermercado.com" />
+      <div class="msg-erro-campo" id="erro-email"></div>
+    </div>
+
+    <div class="campo">
+      <label for="senha">Senha</label>
+      <input type="password" id="senha" placeholder="Mínimo 6 caracteres" />
+      <div class="msg-erro-campo" id="erro-senha"></div>
+    </div>
+
+    <div class="campo">
+      <label for="confirmar">Confirmar Senha</label>
+      <input type="password" id="confirmar" placeholder="Repita a senha" />
+      <div class="msg-erro-campo" id="erro-confirmar"></div>
+    </div>
+
+    <button class="btn-cadastrar" id="btn-cadastrar" onclick="cadastrar()">Criar Conta</button>
+
+    <div class="alerta" id="alerta"></div>
+
+    <p class="link-login">
+      Já tem conta? <a href="/admin/login.html">Faça login</a>
+    </p>
+  </div>
+
+  <script>
+    // Máscara CNPJ
+    document.getElementById('cnpj').addEventListener('input', function () {
+      let v = this.value.replace(/\D/g, '').slice(0, 14);
+      if (v.length > 12) v = v.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})$/, '$1.$2.$3/$4-$5');
+      else if (v.length > 8) v = v.replace(/^(\d{2})(\d{3})(\d{3})(\d{0,4})/, '$1.$2.$3/$4');
+      else if (v.length > 5) v = v.replace(/^(\d{2})(\d{3})(\d{0,3})/, '$1.$2.$3');
+      else if (v.length > 2) v = v.replace(/^(\d{2})(\d{0,3})/, '$1.$2');
+      this.value = v;
+    });
+
+    function validarCNPJ(cnpj) {
+      cnpj = cnpj.replace(/[^\d]/g, '');
+      if (cnpj.length !== 14 || /^(\d)\1+$/.test(cnpj)) return false;
+      let s = 0, p = 5;
+      for (let i = 0; i < 12; i++) { s += +cnpj[i] * p--; if (p < 2) p = 9; }
+      let d1 = s % 11 < 2 ? 0 : 11 - s % 11;
+      if (+cnpj[12] !== d1) return false;
+      s = 0; p = 6;
+      for (let i = 0; i < 13; i++) { s += +cnpj[i] * p--; if (p < 2) p = 9; }
+      let d2 = s % 11 < 2 ? 0 : 11 - s % 11;
+      return +cnpj[13] === d2;
+    }
+
+    function limparErros() {
+      ['nome','cnpj','email','senha','confirmar'].forEach(id => {
+        document.getElementById(id).classList.remove('erro');
+        document.getElementById(`erro-${id}`).classList.remove('visivel');
+      });
+    }
+
+    function mostrarErroCampo(campo, msg) {
+      document.getElementById(campo).classList.add('erro');
+      const el = document.getElementById(`erro-${campo}`);
+      el.textContent = msg;
+      el.classList.add('visivel');
+    }
+
+    function mostrarAlerta(tipo, msg) {
+      const el = document.getElementById('alerta');
+      el.className = `alerta ${tipo}`;
+      el.textContent = msg;
+      el.style.display = 'block';
+    }
+
+    async function cadastrar() {
+      limparErros();
+      document.getElementById('alerta').style.display = 'none';
+
+      const nome = document.getElementById('nome').value.trim();
+      const cnpj = document.getElementById('cnpj').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const senha = document.getElementById('senha').value;
+      const confirmar = document.getElementById('confirmar').value;
+
+      let valido = true;
+
+      if (!nome) { mostrarErroCampo('nome', 'Informe o nome do supermercado.'); valido = false; }
+      if (!cnpj || !validarCNPJ(cnpj)) { mostrarErroCampo('cnpj', 'CNPJ inválido.'); valido = false; }
+      if (!email || !/\S+@\S+\.\S+/.test(email)) { mostrarErroCampo('email', 'E-mail inválido.'); valido = false; }
+      if (!senha || senha.length < 6) { mostrarErroCampo('senha', 'Mínimo 6 caracteres.'); valido = false; }
+      if (senha !== confirmar) { mostrarErroCampo('confirmar', 'As senhas não coincidem.'); valido = false; }
+
+      if (!valido) return;
+
+      const btn = document.getElementById('btn-cadastrar');
+      btn.disabled = true;
+      btn.textContent = 'Cadastrando...';
+
+      try {
+        const res = await fetch('/api/auth/empresa/cadastro', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ nome, cnpj, email, senha })
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          mostrarAlerta('erro', data.error || 'Erro ao cadastrar empresa.');
+          return;
+        }
+
+        mostrarAlerta('sucesso', '✅ Empresa cadastrada! Redirecionando para o login...');
+        setTimeout(() => { window.location.href = '/admin/login.html'; }, 2000);
+      } catch {
+        mostrarAlerta('erro', 'Erro de conexão. Tente novamente.');
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Criar Conta';
+      }
+    }
+
+    // Enter nos campos
+    document.querySelectorAll('input').forEach(inp => {
+      inp.addEventListener('keydown', e => { if (e.key === 'Enter') cadastrar(); });
+    });
+  </script>
+</body>
+</html>

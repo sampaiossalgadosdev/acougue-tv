@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard — AçougueTV Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      min-height: 100vh;
+      background: #0f0f0f;
+      font-family: 'Inter', sans-serif;
+      color: #f0f0f0;
+    }
+
+    /* Header */
+    .header {
+      background: #1a1a1a;
+      border-bottom: 1px solid #2a2a2a;
+      padding: 0 32px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .header-logo span { font-size: 24px; }
+
+    .header-logo-text {
+      font-size: 18px;
+      font-weight: 700;
+      color: #f0c040;
+    }
+
+    .header-right { display: flex; align-items: center; gap: 16px; }
+
+    .empresa-nome {
+      font-size: 13px;
+      color: #777;
+    }
+
+    .btn-sair {
+      padding: 8px 16px;
+      background: transparent;
+      border: 1px solid #333;
+      border-radius: 8px;
+      color: #aaa;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-sair:hover { border-color: #e74c3c; color: #e74c3c; }
+
+    /* Token da TV */
+    .tv-token-bar {
+      background: #141414;
+      border-bottom: 1px solid #222;
+      padding: 10px 32px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .tv-token-label {
+      font-size: 12px;
+      color: #666;
+      white-space: nowrap;
+    }
+
+    .tv-token-value {
+      font-family: monospace;
+      font-size: 13px;
+      color: #f0c040;
+      background: #1e1a0a;
+      border: 1px solid #3a3010;
+      border-radius: 6px;
+      padding: 4px 10px;
+      letter-spacing: 0.5px;
+    }
+
+    .tv-token-copy {
+      font-size: 12px;
+      color: #555;
+      cursor: pointer;
+      background: none;
+      border: none;
+      font-family: 'Inter', sans-serif;
+      transition: color 0.2s;
+    }
+
+    .tv-token-copy:hover { color: #f0c040; }
+
+    /* Main */
+    .main { padding: 32px; max-width: 1400px; margin: 0 auto; }
+
+    .page-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 28px;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .page-title { font-size: 22px; font-weight: 700; }
+    .page-count { font-size: 14px; color: #666; margin-top: 4px; }
+
+    .btn-novo {
+      padding: 12px 24px;
+      background: #f0c040;
+      color: #111;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: background 0.2s;
+    }
+
+    .btn-novo:hover { background: #f5d060; }
+
+    /* Grid de cards */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .card-produto {
+      background: #1c1c1c;
+      border: 1px solid #2a2a2a;
+      border-radius: 14px;
+      overflow: hidden;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+
+    .card-produto:hover { transform: translateY(-2px); border-color: #3a3a3a; }
+
+    .card-foto {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      display: block;
+      background: #252525;
+    }
+
+    .card-body { padding: 16px; }
+
+    .card-badges { display: flex; gap: 6px; margin-bottom: 10px; flex-wrap: wrap; }
+
+    .badge-destaque {
+      background: linear-gradient(135deg, #b8860b, #f0c040);
+      color: #111;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .badge-tipo {
+      background: #2a2a2a;
+      color: #888;
+      font-size: 11px;
+      font-weight: 500;
+      padding: 3px 9px;
+      border-radius: 20px;
+    }
+
+    .card-nome {
+      font-size: 16px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 8px;
+      line-height: 1.3;
+    }
+
+    .card-preco-area { margin-bottom: 14px; }
+
+    .card-preco-original {
+      font-size: 12px;
+      color: #666;
+      text-decoration: line-through;
+      margin-bottom: 2px;
+    }
+
+    .card-preco {
+      font-size: 20px;
+      font-weight: 700;
+      color: #f0c040;
+    }
+
+    .card-preco span {
+      font-size: 13px;
+      font-weight: 400;
+      color: #888;
+    }
+
+    .card-desconto {
+      font-size: 12px;
+      color: #5dde94;
+      font-weight: 600;
+      margin-top: 2px;
+    }
+
+    .card-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn-editar, .btn-excluir {
+      flex: 1;
+      padding: 9px;
+      border-radius: 8px;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s;
+    }
+
+    .btn-editar {
+      background: #252525;
+      color: #f0c040;
+      border: 1px solid #3a3a3a;
+    }
+
+    .btn-editar:hover { background: #f0c040; color: #111; border-color: #f0c040; }
+
+    .btn-excluir {
+      background: #252525;
+      color: #e74c3c;
+      border: 1px solid #3a3a3a;
+    }
+
+    .btn-excluir:hover { background: #e74c3c; color: #fff; border-color: #e74c3c; }
+
+    /* Estado vazio */
+    .vazio {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 80px 24px;
+      color: #555;
+    }
+
+    .vazio-icon { font-size: 56px; margin-bottom: 16px; }
+    .vazio h3 { font-size: 18px; color: #777; margin-bottom: 8px; }
+    .vazio p { font-size: 14px; margin-bottom: 24px; }
+
+    /* Loading */
+    .loading {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 60px;
+      color: #555;
+    }
+
+    /* Modal de confirmação */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.8);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 999;
+    }
+
+    .modal-overlay.ativo { display: flex; }
+
+    .modal {
+      background: #1c1c1c;
+      border: 1px solid #333;
+      border-radius: 14px;
+      padding: 32px;
+      max-width: 380px;
+      width: 90%;
+    }
+
+    .modal h3 { font-size: 18px; margin-bottom: 10px; }
+    .modal p { font-size: 14px; color: #888; margin-bottom: 24px; }
+
+    .modal-actions { display: flex; gap: 10px; }
+
+    .btn-cancelar {
+      flex: 1;
+      padding: 12px;
+      background: transparent;
+      border: 1px solid #333;
+      border-radius: 8px;
+      color: #aaa;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .btn-confirmar-excluir {
+      flex: 1;
+      padding: 12px;
+      background: #e74c3c;
+      border: none;
+      border-radius: 8px;
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      padding: 14px 20px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 500;
+      z-index: 1000;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: all 0.3s;
+      pointer-events: none;
+    }
+
+    .toast.visivel { opacity: 1; transform: translateY(0); }
+    .toast.sucesso { background: #1e3a2a; border: 1px solid #2d6a3f; color: #5dde94; }
+    .toast.erro { background: #3a1e1e; border: 1px solid #6a2d2d; color: #ff6b6b; }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <a class="header-logo" href="#">
+      <span>🥩</span>
+      <span class="header-logo-text">AçougueTV</span>
+    </a>
+    <div class="header-right">
+      <span class="empresa-nome" id="empresa-nome"></span>
+      <button class="btn-sair" onclick="sair()">Sair</button>
+    </div>
+  </header>
+
+  <div class="tv-token-bar">
+    <span class="tv-token-label">📺 Token da TV:</span>
+    <span class="tv-token-value" id="tv-token-display">-</span>
+    <button class="tv-token-copy" onclick="copiarToken()" id="btn-copiar">📋 Copiar</button>
+    <span style="font-size:12px;color:#555">— Use este token para ativar a tela do açougue</span>
+  </div>
+
+  <main class="main">
+    <div class="page-top">
+      <div>
+        <h1 class="page-title">Produtos do Açougue</h1>
+        <p class="page-count" id="contagem">Carregando...</p>
+      </div>
+      <a href="/admin/cadastro.html" class="btn-novo">
+        + Novo Produto
+      </a>
+    </div>
+
+    <div class="grid" id="grid">
+      <div class="loading">Carregando produtos...</div>
+    </div>
+  </main>
+
+  <!-- Modal excluir -->
+  <div class="modal-overlay" id="modal-excluir">
+    <div class="modal">
+      <h3>Excluir Produto</h3>
+      <p id="modal-nome-produto">Tem certeza que deseja excluir este produto? Esta ação não pode ser desfeita.</p>
+      <div class="modal-actions">
+        <button class="btn-cancelar" onclick="fecharModal()">Cancelar</button>
+        <button class="btn-confirmar-excluir" id="btn-confirmar" onclick="confirmarExclusao()">Excluir</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+
+  <script>
+    const ADMIN_TOKEN_KEY = 'admin_token';
+    let carneParaExcluir = null;
+
+    function getToken() {
+      const t = localStorage.getItem(ADMIN_TOKEN_KEY);
+      if (!t) { window.location.href = '/admin/login.html'; return null; }
+      return t;
+    }
+
+    function sair() {
+      localStorage.removeItem(ADMIN_TOKEN_KEY);
+      localStorage.removeItem('empresa_nome');
+      localStorage.removeItem('tv_token_admin');
+      window.location.href = '/admin/login.html';
+    }
+
+    function formatPreco(v) {
+      return parseFloat(v).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+
+    function mostrarToast(msg, tipo = 'sucesso') {
+      const el = document.getElementById('toast');
+      el.textContent = msg;
+      el.className = `toast ${tipo} visivel`;
+      setTimeout(() => { el.className = 'toast'; }, 3500);
+    }
+
+    function copiarToken() {
+      const token = localStorage.getItem('tv_token_admin') || '';
+      if (!token) return;
+      navigator.clipboard.writeText(token).then(() => {
+        document.getElementById('btn-copiar').textContent = '✅ Copiado!';
+        setTimeout(() => { document.getElementById('btn-copiar').textContent = '📋 Copiar'; }, 2000);
+      });
+    }
+
+    function abrirModal(id, nome) {
+      carneParaExcluir = id;
+      document.getElementById('modal-nome-produto').textContent =
+        `Tem certeza que deseja excluir "${nome}"? Esta ação não pode ser desfeita.`;
+      document.getElementById('modal-excluir').classList.add('ativo');
+    }
+
+    function fecharModal() {
+      carneParaExcluir = null;
+      document.getElementById('modal-excluir').classList.remove('ativo');
+    }
+
+    async function confirmarExclusao() {
+      if (!carneParaExcluir) return;
+      const btn = document.getElementById('btn-confirmar');
+      btn.disabled = true;
+      btn.textContent = 'Excluindo...';
+
+      const token = getToken();
+      if (!token) return;
+
+      try {
+        const res = await fetch(`/api/carnes/${carneParaExcluir}`, {
+          method: 'DELETE',
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+
+        if (res.ok) {
+          mostrarToast('Produto excluído com sucesso!');
+          fecharModal();
+          carregar();
+        } else {
+          const d = await res.json();
+          mostrarToast(d.error || 'Erro ao excluir.', 'erro');
+        }
+      } catch {
+        mostrarToast('Erro de conexão.', 'erro');
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Excluir';
+      }
+    }
+
+    function renderCard(c) {
+      const preco = (c.destaque && c.preco_desconto) ? c.preco_desconto : c.preco_kg;
+      const badges = [];
+      if (c.destaque) badges.push('<span class="badge-destaque">⭐ Destaque</span>');
+      if (c.tipo) badges.push(`<span class="badge-tipo">${c.tipo}</span>`);
+
+      const precoOriginal = (c.destaque && c.preco_desconto)
+        ? `<div class="card-preco-original">De R$ ${formatPreco(c.preco_kg)}/kg</div>`
+        : '';
+
+      const desconto = (c.destaque && c.percentual_desconto)
+        ? `<div class="card-desconto">↓ ${c.percentual_desconto}% de desconto</div>`
+        : '';
+
+      return `
+        <div class="card-produto">
+          <img class="card-foto" src="${c.imagem_url}" alt="${c.nome}" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22180%22><rect fill=%22%23252525%22 width=%22400%22 height=%22180%22/><text fill=%22%23555%22 x=%22200%22 y=%2295%22 text-anchor=%22middle%22 font-size=%2240%22>🥩</text></svg>'"/>
+          <div class="card-body">
+            <div class="card-badges">${badges.join('')}</div>
+            <div class="card-nome">${c.nome}</div>
+            <div class="card-preco-area">
+              ${precoOriginal}
+              <div class="card-preco">R$ ${formatPreco(preco)}<span>/kg</span></div>
+              ${desconto}
+            </div>
+            <div class="card-actions">
+              <button class="btn-editar" onclick="editar(${c.id})">✏️ Editar</button>
+              <button class="btn-excluir" onclick="abrirModal(${c.id}, '${c.nome.replace(/'/g, "\\'")}')">🗑 Excluir</button>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function editar(id) {
+      window.location.href = `/admin/cadastro.html?id=${id}`;
+    }
+
+    async function carregar() {
+      const token = getToken();
+      if (!token) return;
+
+      try {
+        const res = await fetch('/api/carnes', {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+
+        if (res.status === 401) { sair(); return; }
+
+        const carnes = await res.json();
+        const grid = document.getElementById('grid');
+        const contagem = document.getElementById('contagem');
+
+        contagem.textContent = `${carnes.length} produto${carnes.length !== 1 ? 's' : ''} cadastrado${carnes.length !== 1 ? 's' : ''}`;
+
+        if (!carnes.length) {
+          grid.innerHTML = `
+            <div class="vazio">
+              <div class="vazio-icon">🥩</div>
+              <h3>Nenhum produto cadastrado</h3>
+              <p>Adicione os produtos do açougue para exibir na TV.</p>
+              <a href="/admin/cadastro.html" class="btn-novo">+ Adicionar Primeiro Produto</a>
+            </div>
+          `;
+          return;
+        }
+
+        grid.innerHTML = carnes.map(renderCard).join('');
+      } catch {
+        document.getElementById('grid').innerHTML = '<div class="loading">Erro ao carregar produtos. Recarregue a página.</div>';
+      }
+    }
+
+    // Init
+    const token = getToken();
+    if (token) {
+      document.getElementById('empresa-nome').textContent = localStorage.getItem('empresa_nome') || '';
+      const tvToken = localStorage.getItem('tv_token_admin');
+      if (tvToken) document.getElementById('tv-token-display').textContent = tvToken;
+      else {
+        // Buscar da API se não estiver no localStorage
+        fetch('/api/empresas/me', { headers: { 'Authorization': `Bearer ${token}` } })
+          .then(r => r.json())
+          .then(d => {
+            if (d.tv_token) {
+              document.getElementById('tv-token-display').textContent = d.tv_token;
+              localStorage.setItem('tv_token_admin', d.tv_token);
+            }
+          });
+      }
+      carregar();
+    }
+
+    // Fechar modal ao clicar fora
+    document.getElementById('modal-excluir').addEventListener('click', function(e) {
+      if (e.target === this) fecharModal();
+    });
+  </script>
+</body>
+</html>
