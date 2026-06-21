@@ -3,6 +3,7 @@ const router = express.Router();
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
+const sharp = require('sharp');
 const { pool } = require('../db');
 const { authMiddleware, tvAuthMiddleware } = require('../middleware/auth');
 
@@ -97,9 +98,18 @@ router.post('/', authMiddleware, upload.single('imagem'), async (req, res) => {
     return res.status(400).json({ error: 'Para produto em destaque, informe o preço com desconto e o percentual' });
   }
 
-  const imagemUrl = `/uploads/${req.file.filename}`;
+  let imagemUrl = null;
 
   try {
+    const resizedPath = req.file.path + '_resized.jpg';
+    await sharp(req.file.path)
+      .resize(960, 540, { fit: 'cover', position: 'centre' })
+      .jpeg({ quality: 85 })
+      .toFile(resizedPath);
+    fs.unlinkSync(req.file.path);
+    fs.renameSync(resizedPath, req.file.path.replace(/\.[^.]+$/, '.jpg'));
+    imagemUrl = `/uploads/${req.file.filename.replace(/\.[^.]+$/, '.jpg')}`;
+
     const result = await pool.query(
       `INSERT INTO carnes (empresa_id, nome, tipo, preco_kg, imagem_url, destaque, preco_desconto, percentual_desconto)
        VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *`,
@@ -116,7 +126,11 @@ router.post('/', authMiddleware, upload.single('imagem'), async (req, res) => {
     );
     res.status(201).json(result.rows[0]);
   } catch (err) {
-    deletarArquivo(imagemUrl);
+    if (imagemUrl) {
+      deletarArquivo(imagemUrl);
+    } else if (req.file) {
+      deletarArquivo(`/uploads/${req.file.filename}`);
+    }
     console.error(err);
     res.status(500).json({ error: 'Erro interno do servidor' });
   }
@@ -143,8 +157,15 @@ router.put('/:id', authMiddleware, upload.single('imagem'), async (req, res) => 
     let imagemUrl = atual.imagem_url;
 
     if (req.file) {
+      const resizedPath = req.file.path + '_resized.jpg';
+      await sharp(req.file.path)
+        .resize(960, 540, { fit: 'cover', position: 'centre' })
+        .jpeg({ quality: 85 })
+        .toFile(resizedPath);
+      fs.unlinkSync(req.file.path);
+      fs.renameSync(resizedPath, req.file.path.replace(/\.[^.]+$/, '.jpg'));
       deletarArquivo(atual.imagem_url);
-      imagemUrl = `/uploads/${req.file.filename}`;
+      imagemUrl = `/uploads/${req.file.filename.replace(/\.[^.]+$/, '.jpg')}`;
     }
 
     const result = await pool.query(
