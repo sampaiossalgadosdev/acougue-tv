@@ -1,25 +1,42 @@
 const express = require('express');
 const router = express.Router();
 const multer = require('multer');
-const path = require('path');
-const fs = require('fs');
 const sharp = require('sharp');
+const { S3Client, PutObjectCommand, DeleteObjectCommand } = require('@aws-sdk/client-s3');
 const { pool } = require('../db');
 const { authMiddleware, tvAuthMiddleware } = require('../middleware/auth');
 
-const uploadsDir = path.join(__dirname, '../../uploads');
-if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir, { recursive: true });
-
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, uploadsDir),
-  filename: (req, file, cb) => {
-    const ext = path.extname(file.originalname).toLowerCase();
-    cb(null, `${Date.now()}-${Math.random().toString(36).substr(2, 9)}${ext}`);
-  }
+const r2 = new S3Client({
+  region: 'auto',
+  endpoint: `https://${process.env.R2_ACCOUNT_ID}.r2.cloudflarestorage.com`,
+  credentials: {
+    accessKeyId: process.env.R2_ACCESS_KEY_ID,
+    secretAccessKey: process.env.R2_SECRET_ACCESS_KEY,
+  },
 });
 
+async function uploadR2(buffer, filename) {
+  await r2.send(new PutObjectCommand({
+    Bucket: process.env.R2_BUCKET_NAME,
+    Key: filename,
+    Body: buffer,
+    ContentType: 'image/jpeg',
+  }));
+  return `${process.env.R2_PUBLIC_URL}/${filename}`;
+}
+
+async function deleteR2(url) {
+  if (!url) return;
+  const base = process.env.R2_PUBLIC_URL;
+  if (!base || !url.startsWith(base)) return;
+  const key = url.slice(base.length + 1);
+  try {
+    await r2.send(new DeleteObjectCommand({ Bucket: process.env.R2_BUCKET_NAME, Key: key }));
+  } catch {}
+}
+
 const upload = multer({
-  storage,
+  storage: multer.memoryStorage(),
   limits: { fileSize: 5 * 1024 * 1024 },
   fileFilter: (req, file, cb) => {
     const allowed = ['image/jpeg', 'image/png', 'image/webp'];
@@ -27,14 +44,6 @@ const upload = multer({
     cb(new Error('Apenas imagens JPEG, PNG ou WebP são aceitas'));
   }
 });
-
-function deletarArquivo(url) {
-  if (!url) return;
-  const filePath = path.join(__dirname, '../../', url);
-  if (fs.existsSync(filePath)) {
-    try { fs.unlinkSync(filePath); } catch {}
-  }
-}
 
 // GET /api/carnes/tv — tela da TV (autenticada por tv_token)
 router.get('/tv', tvAuthMiddleware, async (req, res) => {
@@ -84,7 +93,6 @@ router.post('/', authMiddleware, upload.single('imagem'), async (req, res) => {
   const { nome, tipo, preco_kg, destaque, preco_desconto, percentual_desconto } = req.body;
 
   if (!nome || !preco_kg) {
-    if (req.file) deletarArquivo(`/uploads/${req.file.filename}`);
     return res.status(400).json({ error: 'Nome e preço são obrigatórios' });
   }
 
@@ -94,21 +102,17 @@ router.post('/', authMiddleware, upload.single('imagem'), async (req, res) => {
 
   const isDestaque = destaque === 'true';
   if (isDestaque && (!preco_desconto || !percentual_desconto)) {
-    deletarArquivo(`/uploads/${req.file.filename}`);
     return res.status(400).json({ error: 'Para produto em destaque, informe o preço com desconto e o percentual' });
   }
 
   let imagemUrl = null;
-
   try {
-    const resizedPath = req.file.path + '_resized.jpg';
-    await sharp(req.file.path)
+    const filename = `${Date.now()}-${Math.random().toString(36).substr(2, 9)}.jpg`;
+    const buffer = await sharp(req.file.buffer)
       .resize(960, 540, { fit: 'cover', position: 'centre' })
       .jpeg({ quality: 85 })
-      .toFile(resizedPath);
-    fs.unlinkSync(req.file.path);
-    fs.renameSync(resizedPath, req.file.path.replace(/\.[^.]+$/, '.jpg'));
-    imagemUrl = `/uploads/${req.file.filename.replace(/\.[^.]+$/, '.jpg')}`;
+      .toBuffer();
+    imagemUrl = await uploadR2(buffer, filename);
 
     const result = await pool.query(
       `INSERT INTO carnes (empresa_id, nome, tipo, preco_kg, imagem_url, destaque, preco_desconto, percentual_desconto)
@@ -126,11 +130,7 @@ router.post('/', authMiddleware, upload.single('imagem'), async (req, res) => {
     );
     res.status(201).json(result.rows[0]);
   } catch (err) {
-    if (imagemUrl) {
-      deletarArquivo(imagemUrl);
-    } else if (req.file) {
-      deletarArquivo(`/uploads/${req.file.filename}`);
-    }
+    await deleteR2(imagemUrl);
     console.error(err);
     res.status(500).json({ error: 'Erro interno do servidor' });
   }
@@ -140,6 +140,7 @@ router.post('/', authMiddleware, upload.single('imagem'), async (req, res) => {
 router.put('/:id', authMiddleware, upload.single('imagem'), async (req, res) => {
   const { id } = req.params;
   const { nome, tipo, preco_kg, destaque, preco_desconto, percentual_desconto } = req.body;
+  let novaImagemUrl = null;
 
   try {
     const existing = await pool.query(
@@ -148,7 +149,6 @@ router.put('/:id', authMiddleware, upload.single('imagem'), async (req, res) => 
     );
 
     if (existing.rows.length === 0) {
-      if (req.file) deletarArquivo(`/uploads/${req.file.filename}`);
       return res.status(404).json({ error: 'Produto não encontrado' });
     }
 
@@ -157,15 +157,14 @@ router.put('/:id', authMiddleware, upload.single('imagem'), async (req, res) => 
     let imagemUrl = atual.imagem_url;
 
     if (req.file) {
-      const resizedPath = req.file.path + '_resized.jpg';
-      await sharp(req.file.path)
+      const filename = `${Date.now()}-${Math.random().toString(36).substr(2, 9)}.jpg`;
+      const buffer = await sharp(req.file.buffer)
         .resize(960, 540, { fit: 'cover', position: 'centre' })
         .jpeg({ quality: 85 })
-        .toFile(resizedPath);
-      fs.unlinkSync(req.file.path);
-      fs.renameSync(resizedPath, req.file.path.replace(/\.[^.]+$/, '.jpg'));
-      deletarArquivo(atual.imagem_url);
-      imagemUrl = `/uploads/${req.file.filename.replace(/\.[^.]+$/, '.jpg')}`;
+        .toBuffer();
+      novaImagemUrl = await uploadR2(buffer, filename);
+      await deleteR2(atual.imagem_url);
+      imagemUrl = novaImagemUrl;
     }
 
     const result = await pool.query(
@@ -189,7 +188,7 @@ router.put('/:id', authMiddleware, upload.single('imagem'), async (req, res) => 
 
     res.json(result.rows[0]);
   } catch (err) {
-    if (req.file) deletarArquivo(`/uploads/${req.file.filename}`);
+    await deleteR2(novaImagemUrl);
     console.error(err);
     res.status(500).json({ error: 'Erro interno do servidor' });
   }
@@ -206,7 +205,7 @@ router.delete('/:id', authMiddleware, async (req, res) => {
     if (existing.rows.length === 0) {
       return res.status(404).json({ error: 'Produto não encontrado' });
     }
-    deletarArquivo(existing.rows[0].imagem_url);
+    await deleteR2(existing.rows[0].imagem_url);
     await pool.query('DELETE FROM carnes WHERE id = $1 AND empresa_id = $2', [id, req.empresa.id]);
     res.json({ message: 'Produto removido com sucesso' });
   } catch (err) {

@@ -12,7 +12,6 @@ app.use(express.urlencoded({ extended: true }));
 
 // Arquivos estáticos
 app.use(express.static(path.join(__dirname, '../public')));
-app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
 // Rotas da API
 app.use('/api/auth', require('./routes/auth'));
