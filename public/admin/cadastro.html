@@ -95,7 +95,18 @@
       outline: none;
       transition: border-color 0.2s;
       -webkit-appearance: none;
+      appearance: none;
     }
+
+    select {
+      cursor: pointer;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23888' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      padding-right: 40px;
+    }
+
+    select option { background: #1e1e1e; }
 
     input:focus, select:focus { border-color: #f0c040; }
     input::placeholder { color: #555; }
@@ -320,7 +331,14 @@
       <!-- Tipo -->
       <div class="campo">
         <label for="tipo">Tipo / Categoria</label>
-        <input type="text" id="tipo" placeholder="Ex: Bovina, Suína, Frango" />
+        <select id="tipo">
+          <option value="">Selecione o tipo</option>
+          <option value="Bovina">Bovina</option>
+          <option value="Suína">Suína</option>
+          <option value="Aves">Aves</option>
+          <option value="Pescados">Pescados</option>
+          <option value="Embutidos e Processados">Embutidos e Processados</option>
+        </select>
       </div>
 
       <!-- Preço -->
