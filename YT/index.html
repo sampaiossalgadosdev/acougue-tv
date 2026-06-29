@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YouTube • Protótipo Modo Estudo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ===== NAVBAR ===== -->
+<header class="topbar">
+  <button class="icon-btn" onclick="toggleSidebar()" aria-label="Menu">
+    <svg viewBox="0 0 24 24"><path d="M21 6H3V5h18v1zm0 5H3v1h18v-1zm0 6H3v1h18v-1z"/></svg>
+  </button>
+  <div class="logo" onclick="goHome()" style="cursor:pointer">
+    <span class="play"></span>
+    <span class="name"><b>YouTube</b></span><sup>BR</sup>
+  </div>
+  <div class="search-wrap">
+    <div class="search">
+      <input type="text" placeholder="Pesquisar" aria-label="Pesquisar">
+      <button class="go" aria-label="Buscar"><svg viewBox="0 0 24 24"><path d="M20.87 20.17l-5.59-5.59C16.35 13.35 17 11.75 17 10c0-3.87-3.13-7-7-7s-7 3.13-7 7 3.13 7 7 7c1.75 0 3.35-.65 4.58-1.71l5.59 5.59.7-.7zM10 16c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6z"/></svg></button>
+    </div>
+    <button class="mic" aria-label="Pesquisa por voz"><svg viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5-3c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>
+  </div>
+  <div class="topbar-right">
+    <button class="icon-btn star-btn" onclick="openStudy()" aria-label="Modo Estudo">
+      <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+    </button>
+    <button class="icon-btn" aria-label="Enviar"><svg viewBox="0 0 24 24"><path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/></svg></button>
+    <button class="icon-btn bell-badge" aria-label="Notificações">
+      <svg viewBox="0 0 24 24"><path d="M10 20h4c0 1.1-.9 2-2 2s-2-.9-2-2zm10-2.65V18H4v-.65l2-1.93v-4.67C6 7.73 7.95 5.34 11 5.05V3h2v2.05c3.05.29 5 2.68 5 5.7v4.67l2 1.93z"/></svg>
+      <span class="count">9+</span>
+    </button>
+    <div class="avatar" title="Perfil">S</div>
+  </div>
+</header>
+
+<!-- ===== SHELL ===== -->
+<div class="shell">
+  <aside class="sidebar" id="sidebar">
+    <button class="side-item active" onclick="goHome()">
+      <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg> Início
+    </button>
+    <button class="side-item">
+      <svg viewBox="0 0 24 24"><path d="M10 14.65v-5.3L15 12l-5 2.65zm7.77-4.33c-.77-.32-1.2-.5-1.2-.5L18 9.06c1.84-.96 2.53-3.23 1.56-5.06s-3.24-2.53-5.07-1.56L6 6.94c-1.29.68-2.07 2.04-2 3.49.07 1.42.93 2.67 2.22 3.25.03.01 1.2.5 1.2.5L6 14.93c-1.83.97-2.53 3.24-1.56 5.07.97 1.83 3.24 2.53 5.07 1.56l8.5-4.5c1.29-.68 2.06-2.04 1.99-3.49-.07-1.42-.94-2.68-2.23-3.25z"/></svg> Shorts
+    </button>
+    <div class="side-divider"></div>
+    <div class="side-title">Inscrições <svg viewBox="0 0 24 24"><path d="M10 17l5-5-5-5v10z"/></svg></div>
+    <button class="side-item"><span class="ch-av" style="background:linear-gradient(135deg,#16a34a,#22c55e)"></span> Investidor 4.20</button>
+    <button class="side-item"><span class="ch-av" style="background:linear-gradient(135deg,#0ea5e9,#38bdf8)"></span> Investidor Sardinha</button>
+    <button class="side-item"><span class="ch-av" style="background:linear-gradient(135deg,#dc2626,#f87171)"></span> CazéTV <span class="live-dot"></span></button>
+    <button class="side-item"><span class="ch-av" style="background:linear-gradient(135deg,#9333ea,#c084fc)"></span> Renato Albani</button>
+    <div class="side-divider"></div>
+    <div class="side-title">Você <svg viewBox="0 0 24 24"><path d="M10 17l5-5-5-5v10z"/></svg></div>
+    <button class="side-item"><svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg> Seu canal</button>
+    <button class="side-item"><svg viewBox="0 0 24 24"><path d="M13 3c-4.97 0-9 4.03-9 9H1l4 4 4-4H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42C8.27 19.99 10.51 21 13 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z"/></svg> Histórico</button>
+    <button class="side-item"><svg viewBox="0 0 24 24"><path d="M14 10H2v2h12v-2zm0-4H2v2h12V6zM2 16h8v-2H2v2zm14-4v4h-2v-4h-4v-2h4V6h2v4h4v2h-4z"/></svg> Assistir mais tarde</button>
+  </aside>
+
+  <main class="content" id="content">
+    <div id="homeView">
+      <div class="chips" id="chips"></div>
+      <div class="grid" id="grid"></div>
+    </div>
+    <div class="study" id="studyView">
+      <div id="studyRoot"></div>
+    </div>
+  </main>
+</div>
+
+<!-- ===== MODAL: DEFINIR META (primeira vez) ===== -->
+<div class="overlay goal-overlay-bg" id="goalOverlay">
+  <div class="goal-modal">
+    <span class="goal-emoji">📚</span>
+    <h2>Defina sua meta diária</h2>
+    <p>Quanto tempo você quer dedicar ao aprendizado por dia?</p>
+    <div class="goal-bonus-tip">
+      Ao atingir sua meta, você ganha <b>+0,5× do XP do dia</b> como bônus!<br>
+      Por exemplo: ganhou 200 XP → leva mais 100 XP de bônus.
+    </div>
+    <div class="goal-opts">
+      <button class="goal-opt" onclick="selectGoalOpt(this,15)">15 min<span>recomendado pra começar</span></button>
+      <button class="goal-opt" onclick="selectGoalOpt(this,30)">30 min<span>popular entre estudantes</span></button>
+      <button class="goal-opt" onclick="selectGoalOpt(this,45)">45 min<span>foco profundo</span></button>
+      <button class="goal-opt" onclick="selectGoalOpt(this,60)">1 hora<span>modo turbo 🔥</span></button>
+    </div>
+    <input type="number" id="goalCustom" class="goal-custom-in" placeholder="Outro valor (em minutos, ex: 20)" min="1" max="480">
+    <button class="btn-primary" style="width:100%;padding:14px;font-size:15px" onclick="confirmGoal()">Começar minha jornada →</button>
+  </div>
+</div>
+
+<!-- ===== MODAL: PLAYER ===== -->
+<div class="overlay" id="playerOverlay">
+  <div class="player">
+    <button class="modal-close" onclick="closePlayer()"><svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></button>
+    <div class="pframe" id="pframe"></div>
+    <div class="pmeta"><h3 id="pTitle"></h3><p id="pSub"></p></div>
+  </div>
+</div>
+
+<!-- ===== MODAL: QUIZ ===== -->
+<div class="overlay" id="quizOverlay">
+  <div class="quiz-modal">
+    <div class="quiz-bar"><i id="quizBar"></i></div>
+    <div class="quiz-head">
+      <span class="q-n" id="quizN"></span>
+      <button class="q-x" onclick="closeQuiz()"><svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></button>
+    </div>
+    <div class="quiz-body">
+      <div class="quiz-q" id="quizQ"></div>
+      <div id="quizOpts"></div>
+      <div id="quizExp" style="display:none"></div>
+    </div>
+    <div class="quiz-foot">
+      <div class="feedback" id="quizFb"></div>
+      <button class="btn-primary" id="quizNext" onclick="quizNext()" disabled>Confirmar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== MODAL: RESULTADO QUIZ ===== -->
+<div class="overlay" id="resultOverlay"><div id="resultBox"></div></div>
+
+<!-- ===== MODAL: CERTIFICADO ===== -->
+<div class="overlay" id="certOverlay">
+  <div class="cert-modal">
+    <button class="modal-close" onclick="closeOverlay('certOverlay')"><svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></button>
+    <div class="cert-canvas-wrap"><canvas id="certCanvas" width="1000" height="700"></canvas></div>
+    <div class="cert-actions">
+      <button class="btn-primary" id="certDl">Baixar certificado (PNG)</button>
+      <button class="btn-ghost" onclick="closeOverlay('certOverlay')">Fechar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== MODAL: EQUIPES ===== -->
+<div class="overlay" id="equipesOverlay">
+  <div class="modal-box equipes-modal">
+    <button class="modal-close" onclick="closeOverlay('equipesOverlay')"><svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></button>
+    <h2>👥 Equipes de Estudo</h2>
+    <p class="mdesc">Estude em grupo, compare seu progresso e mantenha a motivação.</p>
+    <div id="eqConteudo"></div>
+  </div>
+</div>
+
+<!-- ===== MODAL: RELATÓRIO ===== -->
+<div class="overlay" id="relatorioOverlay">
+  <div class="modal-box relatorio-modal">
+    <button class="modal-close" onclick="closeOverlay('relatorioOverlay')"><svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></button>
+    <div id="relConteudo"></div>
+  </div>
+</div>
+
+<!-- ===== TOASTS ===== -->
+<div id="toastWrap"></div>
+
+<!-- ===== CONFETE ===== -->
+<canvas id="confetti"></canvas>
+
+<script src="script.js"></script>
+</body>
+</html>

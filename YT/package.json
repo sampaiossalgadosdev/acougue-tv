@@ -1,0 +1,14 @@
+{
+  "name": "youtube-modo-estudo",
+  "version": "1.0.0",
+  "description": "Protótipo acadêmico — Modo Estudo YouTube com gamificação",
+  "scripts": {
+    "start": "serve -s . -l ${PORT:-3000}"
+  },
+  "dependencies": {
+    "serve": "^14.2.4"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
