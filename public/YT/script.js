@@ -688,7 +688,7 @@ function renderEqChat() {
     <div class="chat-input-bar">
       <input id="chatInput" type="text" placeholder="Digite uma mensagem..." onkeydown="if(event.key==='Enter')sendMsg('${_eqChatId}')">
       <button class="btn-primary" style="padding:11px 16px;border-radius:12px;flex-shrink:0" onclick="sendMsg('${_eqChatId}')">
-        <svg viewBox="0 0 24 24" width="18" height="18" fill="#0f0f0f"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
       </button>
     </div>`;
 
