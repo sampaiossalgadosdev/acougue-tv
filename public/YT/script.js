@@ -37,10 +37,10 @@ const MODO_ESTUDO = {
     capitulos:[
       {titulo:"O que é Democracia",
         videos:[{id:"dQw4w9WgXcQ",titulo:"Democracia: o poder vem do povo",canal:"Política Descomplicada"},{id:"9bZkp7q19f0",titulo:"Voto, eleições e representação",canal:"Educa Cidadania"},{id:"kJQP7kiw5Fk",titulo:"Direitos e deveres do cidadão",canal:"Brasil em Aula"}],
-        quiz:[{pergunta:"A palavra 'democracia' tem origem grega e significa:",opcoes:["Governo de um só","Governo do povo","Governo dos sábios","Governo dos ricos"],correta:1},{pergunta:"Em uma democracia representativa, o povo exerce o poder principalmente por meio de:",opcoes:["Herança","Sorteio","Voto em representantes","Força militar"],correta:2},{pergunta:"Qual destes é um direito político do cidadão brasileiro?",opcoes:["Votar e ser votado","Sonegar impostos","Ignorar leis","Comprar votos"],correta:0},{pergunta:"O voto no Brasil, para maiores de 18 e menores de 70 anos, é:",opcoes:["Proibido","Facultativo","Obrigatório","Pago"],correta:2}]},
+        quiz:[{pergunta:"A palavra 'democracia' tem origem grega e significa:",opcoes:["Governo de um só","Governo do povo","Governo dos sábios","Governo dos ricos"],correta:1},{pergunta:"Em uma democracia representativa, o povo exerce o poder principalmente por meio de:",opcoes:["Herança","Sorteio","Voto em representantes","Força militar"],correta:2},{pergunta:"Qual destes é um direito político do cidadão brasileiro?",opcoes:["Votar e ser votado","Sonegar impostos","Ignorar leis","Comprar votos"],correta:0},{pergunta:"O voto no Brasil, para maiores de 18 e menores de 70 anos, é:",opcoes:["Proibido","Facultativo","Obrigatório","Pago"],correta:2},{pergunta:"A atual Constituição Federal do Brasil é do ano de:",opcoes:["1969","1988","1992","2000"],correta:1}]},
       {titulo:"Os Três Poderes",
         videos:[{id:"OPf0YbXqDm0",titulo:"Executivo, Legislativo e Judiciário",canal:"Política Descomplicada"},{id:"fJ9rUzIMcZQ",titulo:"Como as leis são criadas",canal:"Educa Cidadania"},{id:"hHW1oY26kxQ",titulo:"O sistema de freios e contrapesos",canal:"Brasil em Aula"}],
-        quiz:[{pergunta:"O poder responsável por CRIAR as leis é o:",opcoes:["Executivo","Legislativo","Judiciário","Moderador"],correta:1},{pergunta:"O Presidente da República faz parte de qual poder?",opcoes:["Legislativo","Judiciário","Executivo","Eleitoral"],correta:2},{pergunta:"Julgar conflitos e aplicar as leis é função do poder:",opcoes:["Executivo","Judiciário","Legislativo","Municipal"],correta:1},{pergunta:"A separação dos três poderes serve principalmente para:",opcoes:["Aumentar impostos","Evitar concentração de poder","Eleger juízes","Criar mais cargos"],correta:1}]},
+        quiz:[{pergunta:"O poder responsável por CRIAR as leis é o:",opcoes:["Executivo","Legislativo","Judiciário","Moderador"],correta:1},{pergunta:"O Presidente da República faz parte de qual poder?",opcoes:["Legislativo","Judiciário","Executivo","Eleitoral"],correta:2},{pergunta:"Julgar conflitos e aplicar as leis é função do poder:",opcoes:["Executivo","Judiciário","Legislativo","Municipal"],correta:1},{pergunta:"A separação dos três poderes serve principalmente para:",opcoes:["Aumentar impostos","Evitar concentração de poder","Eleger juízes","Criar mais cargos"],correta:1},{pergunta:"O órgão máximo do Poder Judiciário brasileiro é o:",opcoes:["STJ","TSE","STF","TRF"],correta:2}]},
       {titulo:"Federação e Constituição",videos:[],quiz:[]},
       {titulo:"Partidos e Eleições",videos:[],quiz:[]},
       {titulo:"Cidadania na Prática",videos:[],quiz:[]}
@@ -53,10 +53,10 @@ const MODO_ESTUDO = {
     capitulos:[
       {titulo:"As Quatro Operações",
         videos:[{id:"2Vv-BfVoq4g",titulo:"Soma e subtração sem medo",canal:"Matemática Rio"},{id:"e-ORhEE9VVg",titulo:"Multiplicação na prática",canal:"Prof. Ferretto"},{id:"RgKAFK5djSk",titulo:"Divisão passo a passo",canal:"Matemática Rio"}],
-        quiz:[{pergunta:"Quanto é 7 × 8?",opcoes:["54","56","48","64"],correta:1},{pergunta:"Quanto é 144 ÷ 12?",opcoes:["12","14","11","13"],correta:0},{pergunta:"Quanto é 25 + 38?",opcoes:["53","62","63","73"],correta:2},{pergunta:"Quanto é 90 − 47?",opcoes:["33","43","53","47"],correta:1}]},
+        quiz:[{pergunta:"Quanto é 7 × 8?",opcoes:["54","56","48","64"],correta:1},{pergunta:"Quanto é 144 ÷ 12?",opcoes:["12","14","11","13"],correta:0},{pergunta:"Quanto é 25 + 38?",opcoes:["53","62","63","73"],correta:2},{pergunta:"Quanto é 90 − 47?",opcoes:["33","43","53","47"],correta:1},{pergunta:"Quanto é 15 × 4?",opcoes:["45","50","60","55"],correta:2}]},
       {titulo:"Porcentagem do Dia a Dia",
         videos:[{id:"hT_nvWreIhg",titulo:"O que é porcentagem",canal:"Matemática Rio"},{id:"YykjpeuMNEk",titulo:"Desconto e aumento",canal:"Prof. Ferretto"},{id:"M7lc1UVf-VE",titulo:"Juros simples na prática",canal:"Dinheiro Claro"}],
-        quiz:[{pergunta:"Quanto é 10% de 200?",opcoes:["2","20","200","10"],correta:1},{pergunta:"Um produto de R$50 com 20% de desconto fica:",opcoes:["R$30","R$45","R$40","R$10"],correta:2},{pergunta:"25% equivale a qual fração?",opcoes:["1/2","1/3","1/4","1/5"],correta:2},{pergunta:"50% de 80 é:",opcoes:["40","30","60","20"],correta:0}]},
+        quiz:[{pergunta:"Quanto é 10% de 200?",opcoes:["2","20","200","10"],correta:1},{pergunta:"Um produto de R$50 com 20% de desconto fica:",opcoes:["R$30","R$45","R$40","R$10"],correta:2},{pergunta:"25% equivale a qual fração?",opcoes:["1/2","1/3","1/4","1/5"],correta:2},{pergunta:"50% de 80 é:",opcoes:["40","30","60","20"],correta:0},{pergunta:"Um produto de R$80 com aumento de 15% passa a custar:",opcoes:["R$88","R$90","R$92","R$95"],correta:2}]},
       {titulo:"Frações e Decimais",videos:[],quiz:[]},
       {titulo:"Geometria Básica",videos:[],quiz:[]},
       {titulo:"Raciocínio Lógico",videos:[],quiz:[]}
@@ -69,7 +69,7 @@ const MODO_ESTUDO = {
     capitulos:[
       {titulo:"Lógica de Programação",
         videos:[{id:"zNzZ1PfUDNk",titulo:"O que é um algoritmo",canal:"Curso em Vídeo"},{id:"L_jWHffIx5E",titulo:"Variáveis e condições",canal:"Filipe Deschamps"},{id:"3JZ_D3ELwOQ",titulo:"Laços de repetição",canal:"Curso em Vídeo"}],
-        quiz:[{pergunta:"Um algoritmo é, basicamente:",opcoes:["Um tipo de computador","Uma sequência de passos para resolver um problema","Uma linguagem de programação","Um site"],correta:1},{pergunta:"Uma 'variável' serve para:",opcoes:["Armazenar um valor","Desligar o PC","Pintar a tela","Criar contas"],correta:0},{pergunta:"Um comando que repete ações é chamado de:",opcoes:["Condição","Variável","Laço (loop)","Função"],correta:2},{pergunta:"O 'if' em programação representa uma:",opcoes:["Repetição","Decisão/condição","Soma","Impressão"],correta:1}]},
+        quiz:[{pergunta:"Um algoritmo é, basicamente:",opcoes:["Um tipo de computador","Uma sequência de passos para resolver um problema","Uma linguagem de programação","Um site"],correta:1},{pergunta:"Uma 'variável' serve para:",opcoes:["Armazenar um valor","Desligar o PC","Pintar a tela","Criar contas"],correta:0},{pergunta:"Um comando que repete ações é chamado de:",opcoes:["Condição","Variável","Laço (loop)","Função"],correta:2},{pergunta:"O 'if' em programação representa uma:",opcoes:["Repetição","Decisão/condição","Soma","Impressão"],correta:1},{pergunta:"Se x = 5 e depois x = x + 3, qual é o valor final de x?",opcoes:["5","3","8","35"],correta:2}]},
       {titulo:"Introdução ao HTML",videos:[],quiz:[]},
       {titulo:"Estilizando com CSS",videos:[],quiz:[]},
       {titulo:"JavaScript do Zero",videos:[],quiz:[]},
@@ -88,13 +88,15 @@ const EXPL = {
       'A palavra "democracia" vem do grego: "demos" (povo) + "kratos" (poder). O conceito surgiu na Grécia Antiga, especialmente em Atenas, por volta do século V a.C., quando Clístenes introduziu as reformas democráticas.',
       'Na democracia representativa, os cidadãos elegem representantes (deputados, senadores, presidente) que tomam decisões em seu nome. É diferente da democracia direta, onde o povo vota em cada decisão individualmente.',
       'Os direitos políticos — votar e ser votado — estão garantidos pela Constituição Federal de 1988 (artigos 14 a 16). São fundamentais para a participação na vida política do país.',
-      'No Brasil, o voto é OBRIGATÓRIO para maiores de 18 e menores de 70 anos. É FACULTATIVO para jovens de 16–17 anos, maiores de 70 e analfabetos. Quem não vota e não justifica pode ter o título cancelado.'
+      'No Brasil, o voto é OBRIGATÓRIO para maiores de 18 e menores de 70 anos. É FACULTATIVO para jovens de 16–17 anos, maiores de 70 e analfabetos. Quem não vota e não justifica pode ter o título cancelado.',
+      'A Constituição Federal de 1988, apelidada de "Constituição Cidadã" pelo deputado Ulysses Guimarães, é a lei maior do Brasil. Promulgada em 5 de outubro de 1988, após o fim da ditadura militar (1964–1985), ela garantiu direitos fundamentais, o voto direto e a democracia que temos hoje.'
     ],
     1: [
       'O Poder Legislativo (Câmara dos Deputados + Senado Federal) cria, modifica e revoga leis. A Câmara tem 513 deputados eleitos pelo povo; o Senado tem 81 senadores (3 por estado + DF).',
       'O Poder Executivo é chefiado pelo Presidente da República, responsável por administrar o país, executar as leis aprovadas e gerir os recursos públicos. Ministros auxiliam na gestão de cada área.',
       'O Poder Judiciário interpreta e aplica as leis, resolve conflitos e garante direitos. É composto pelo STF, STJ, TSE, TST e toda a estrutura de tribunais e juízes em todo o país.',
-      'O sistema de "freios e contrapesos" (checks and balances) garante que nenhum dos três poderes seja absoluto. O conceito foi desenvolvido por Montesquieu em "O Espírito das Leis" (1748) e adotado pela Constituição brasileira de 1988.'
+      'O sistema de "freios e contrapesos" (checks and balances) garante que nenhum dos três poderes seja absoluto. O conceito foi desenvolvido por Montesquieu em "O Espírito das Leis" (1748) e adotado pela Constituição brasileira de 1988.',
+      'O STF (Supremo Tribunal Federal) é o guardião da Constituição e o órgão máximo do Judiciário. Conta com 11 ministros indicados pelo Presidente da República e aprovados pelo Senado Federal, com mandato vitalício até os 75 anos de idade.'
     ]
   },
   matematica: {
@@ -102,13 +104,15 @@ const EXPL = {
       '7 × 8 = 56. Dica memorável: "5, 6, 7, 8 — cinquenta e seis é sete vezes oito!" Outra estratégia: 7 × 8 = 7 × (4 × 2) = (7 × 4) × 2 = 28 × 2 = 56.',
       '144 ÷ 12 = 12. Porque 12 é a raiz quadrada de 144 (12 × 12 = 144). A divisão é a operação inversa da multiplicação — para verificar uma divisão, multiplique o resultado pelo divisor.',
       '25 + 38 = 63. Estratégia: some dezenas separadamente (20 + 30 = 50) e unidades (5 + 8 = 13), depois junte: 50 + 13 = 63. Verificação: 63 − 38 = 25 ✓',
-      '90 − 47 = 43. Estratégia: 90 − 40 = 50, depois 50 − 7 = 43. Verificação: 43 + 47 = 90 ✓. Sempre verifique adicionando o resultado ao número subtraído.'
+      '90 − 47 = 43. Estratégia: 90 − 40 = 50, depois 50 − 7 = 43. Verificação: 43 + 47 = 90 ✓. Sempre verifique adicionando o resultado ao número subtraído.',
+      '15 × 4 = 60. Estratégia: separe em parcelas — (10 × 4) + (5 × 4) = 40 + 20 = 60. Outra forma: multiplicar por 4 equivale a dobrar duas vezes — 15 × 2 = 30, depois 30 × 2 = 60.'
     ],
     1: [
       '10% de qualquer número = dividir por 10. Regra de ouro: mova a vírgula uma casa para a esquerda. 10% de 200 = 20,0. 10% de 350 = 35,0. Fácil e rápido!',
       'Desconto de 20% em R$50: 20% de 50 = R$10. Valor final = R$50 − R$10 = R$40. Atalho mental: desconto de 20% = pagar 80% do preço. 0,8 × 50 = R$40.',
       '25% = 25/100 = 1/4 (simplificando numerador e denominador por 25). Logo, 25% de qualquer valor é dividir por 4. Ex: 25% de 200 = 200 ÷ 4 = 50.',
-      '50% = metade, sempre. 80 ÷ 2 = 40. Matematicamente: 50% = 1/2. Dica: o cálculo de 50% é o mais simples de todos — basta dividir por 2!'
+      '50% = metade, sempre. 80 ÷ 2 = 40. Matematicamente: 50% = 1/2. Dica: o cálculo de 50% é o mais simples de todos — basta dividir por 2!',
+      'Aumento de 15% em R$80: 15% de 80 = 0,15 × 80 = R$12. Novo preço: R$80 + R$12 = R$92. Atalho: aumento de X% → multiplique por (1 + X/100). Aqui: 1,15 × 80 = R$92. Para desconto de 15% seria 0,85 × 80 = R$68.'
     ]
   },
   programacao: {
@@ -116,7 +120,8 @@ const EXPL = {
       'Um algoritmo é um conjunto finito e ordenado de instruções que resolve um problema. Pense em uma receita de bolo: ingredientes (entrada), passos (processamento) e resultado (saída). Todo programa é, em essência, um algoritmo.',
       'Uma variável é como uma caixa com nome onde guardamos um valor que pode mudar. Exemplo: `idade = 20` guarda o número 20 na variável "idade". Diferente de uma constante, cujo valor não muda durante a execução.',
       'Laços (loops) repetem um bloco de código. Os principais: `for` (número definido de repetições) e `while` (repete enquanto uma condição for verdadeira). Sem loops, listar 100 números exigiria 100 linhas de código!',
-      'O `if` (se) permite decisões no código: "se X for verdadeiro, faça Y". Com `else` (senão), cobre os dois caminhos. É a base da lógica de programação e de toda inteligência artificial.'
+      'O `if` (se) permite decisões no código: "se X for verdadeiro, faça Y". Com `else` (senão), cobre os dois caminhos. É a base da lógica de programação e de toda inteligência artificial.',
+      '`x = 5` guarda o valor 5 na variável x. Depois, `x = x + 3` pega o valor atual (5), soma 3 e guarda o resultado (8) na mesma variável. Em programação, o sinal `=` significa "recebe o valor de" — diferente da igualdade matemática. Por isso `x = x + 1` é válido: x recebe seu próprio valor mais 1.'
     ]
   }
 };
@@ -550,28 +555,29 @@ function renderEqMinhas() {
     ? equipes.map(eq => {
         const ci = catInfo[eq.categoria] || {l:eq.categoria,cor:'#888'};
         const totalXp = eq.membros.reduce((s,m)=>s+m.xp,0);
+        const totalMembros = eq.membros.length + 1; // +1 pelo próprio usuário
         return `<div class="team-card joined" style="cursor:pointer" onclick="_eqChatId='${eq.id}';_eqTela='chat';renderEqConteudo()">
           <div class="team-card-top">
             <div style="flex:1;min-width:0">
               <div class="team-nome">${eq.nome}</div>
               <div class="team-meta">
                 <span class="team-badge" style="background:${ci.cor}22;color:${ci.cor}">${ci.l}</span>
-                <span class="team-tipo">${eq.membros.length} participante${eq.membros.length!==1?'s':''}</span>
+                <span class="team-tipo">${totalMembros} participante${totalMembros!==1?'s':''}</span>
               </div>
             </div>
             <svg viewBox="0 0 24 24" width="20" height="20" fill="#666"><path d="M10 17l5-5-5-5v10z"/></svg>
           </div>
         </div>`;
       }).join('')
-    : `<div class="empty-eq">Você ainda não entrou em nenhum grupo.<br>Encontre grupos abertos ou crie o seu!</div>`;
+    : `<div class="empty-eq">Você ainda não entrou em nenhuma equipe.<br>Encontre equipes abertas ou crie a sua!</div>`;
 
   document.getElementById('eqConteudo').innerHTML = `
-    <h2 style="margin-bottom:4px">Meus Grupos</h2>
-    <p class="mdesc">Clique em um grupo para abrir o chat</p>
+    <h2 style="margin-bottom:4px">Minhas Equipes</h2>
+    <p class="mdesc">Clique em uma equipe para abrir o chat</p>
     ${cards}
     <div class="eq-footer" style="display:flex;gap:10px;justify-content:center;margin-top:16px">
-      <button class="btn-ghost" onclick="_eqTela='lista';renderEqConteudo()">🔍 Encontrar grupos</button>
-      <button class="btn-ghost" onclick="_eqTela='criar';renderEqConteudo()">+ Criar grupo</button>
+      <button class="btn-ghost" onclick="_eqTela='lista';renderEqConteudo()">🔍 Encontrar equipes</button>
+      <button class="btn-primary" onclick="_eqTela='criar';renderEqConteudo()">+ Criar</button>
     </div>`;
 }
 
@@ -589,6 +595,7 @@ function renderEqLista() {
     ? equipes.map(eq => {
         const souMembro = mins.includes(eq.id);
         const ci = catInfo[eq.categoria] || {l:eq.categoria,cor:'#888'};
+        const mTotal = souMembro ? eq.membros.length + 1 : eq.membros.length;
         return `<div class="team-card ${souMembro?'joined':''}">
           <div class="team-card-top">
             <div>
@@ -596,7 +603,7 @@ function renderEqLista() {
               <div class="team-meta">
                 <span class="team-badge" style="background:${ci.cor}22;color:${ci.cor}">${ci.l}</span>
                 <span class="team-tipo">${eq.tipo==='aberta'?'🟢 Aberta':'🔒 Fechada'}</span>
-                <span style="font-size:12px;color:var(--text-2)">${eq.membros.length} membro${eq.membros.length!==1?'s':''}</span>
+                <span style="font-size:12px;color:var(--text-2)">${mTotal} membro${mTotal!==1?'s':''}</span>
               </div>
             </div>
             ${souMembro
@@ -614,7 +621,7 @@ function renderEqLista() {
     </button>
     <div class="cat-tabs">${tabs}</div>
     ${cards}
-    <div class="eq-footer"><button class="btn-ghost" onclick="_eqTela='criar';renderEqConteudo()">+ Criar novo grupo</button></div>`;
+    <div class="eq-footer"><button class="btn-primary" onclick="_eqTela='criar';renderEqConteudo()">+ Criar</button></div>`;
 }
 
 /* ---- Tela: Criar Grupo ---- */
@@ -640,7 +647,7 @@ function renderEqCriar() {
       <option value="matematica">Matemática</option>
       <option value="programacao">Programação</option>
     </select>
-    <button class="btn-primary" style="width:100%;padding:14px;font-size:15px" onclick="confirmarCriarEquipe()">Criar grupo</button>`;
+    <button class="btn-primary" style="width:100%;padding:14px;font-size:15px" onclick="confirmarCriarEquipe()">Criar</button>`;
 }
 
 /* ---- Tela: Chat do Grupo ---- */
@@ -732,7 +739,7 @@ function confirmarCriarEquipe() {
           <div class="lurl">${link}</div>
           <button class="btn-primary" onclick="navigator.clipboard.writeText('${link}');this.textContent='Copiado! ✓';this.style.background='#2ec74e'">Copiar link</button>
         </div>
-        <button class="btn-ghost" style="margin-top:10px" onclick="_eqChatId='${id}';_eqTela='chat';renderEqConteudo()">Abrir grupo →</button>
+        <button class="btn-ghost" style="margin-top:10px" onclick="_eqChatId='${id}';_eqTela='chat';renderEqConteudo()">Abrir equipe →</button>
       </div>`;
     return;
   }
